@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import streamlit as st
 from langchain_openai import OpenAI
 from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 
 load_dotenv()
 
@@ -18,7 +19,7 @@ title_template = PromptTemplate(
 )
 
 llm = OpenAI(temperature=0.9)
+title_chain = LLMChain(llm = llm, prompt = title_template)
 
 if topic:
-    response = llm(title_template.format(topic = topic, language = 'english'))
-    st.write(response)
+    response = title_chain.run(topic)
